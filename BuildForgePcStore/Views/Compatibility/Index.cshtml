@@ -1,0 +1,51 @@
+@model CompatibilityViewModel
+@{
+    ViewData["Title"] = "Compatibility checker";
+}
+
+<h1 class="h3 mb-4">PC compatibility checker</h1>
+
+<form asp-action="Index" method="post">
+    @Html.AntiForgeryToken()
+    <div class="row g-4">
+        <div class="col-md-6">
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <h5 class="card-title">CPU</h5>
+                    <select asp-for="CpuProductId" class="form-select">
+                        <option value="">-- Select CPU --</option>
+                        @foreach (var cpu in Model.CpuList)
+                        {
+                            <option value="@cpu.ProductId">@cpu.ProductName (@cpu.Socket)</option>
+                        }
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <h5 class="card-title">Motherboard</h5>
+                    <select asp-for="MotherboardProductId" class="form-select">
+                        <option value="">-- Select motherboard --</option>
+                        @foreach (var mb in Model.MotherboardList)
+                        {
+                            <option value="@mb.ProductId">@mb.ProductName (@mb.Socket)</option>
+                        }
+                    </select>
+                </div>
+            </div>
+        </div>
+    </div>
+    <button type="submit" class="btn btn-primary mt-3">Check compatibility</button>
+</form>
+
+@if (Model.IsCompatible.HasValue)
+{
+    <div class="card mt-4 @(Model.IsCompatible == true ? "border-success bg-success bg-opacity-10" : "border-danger bg-danger bg-opacity-10")">
+        <div class="card-body">
+            <h5 class="card-title">@(Model.IsCompatible == true ? "Compatible" : "Not compatible")</h5>
+            <p class="mb-0">@Model.ResultMessage</p>
+        </div>
+    </div>
+}
