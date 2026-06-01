@@ -52,6 +52,10 @@ public class CheckoutController : Controller
         model.Subtotal = cartVm.Subtotal;
         model.TaxAmount = Math.Round(model.Subtotal * TaxRate, 2);
         model.TotalAmount = model.Subtotal + model.TaxAmount;
+
+        if (!model.ConfirmOrder)
+            ModelState.AddModelError(nameof(model.ConfirmOrder), "You must confirm your order.");
+
         if (!ModelState.IsValid)
             return View(model);
         var userId = HttpContext.Session.GetUserId();
