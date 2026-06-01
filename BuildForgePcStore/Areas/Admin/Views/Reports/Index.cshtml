@@ -1,0 +1,59 @@
+﻿@model SalesReportViewModel
+@{
+    ViewData["Title"] = "Sales Reports";
+}
+
+<partial name="_AdminNav" />
+
+<h1 class="h3 mb-4">Sales reports</h1>
+
+<form method="post" class="row g-3 mb-4 align-items-end">
+    <div class="col-md-3">
+        <label asp-for="DateFrom"></label>
+        <input asp-for="DateFrom" class="form-control" />
+    </div>
+    <div class="col-md-3">
+        <label asp-for="DateTo"></label>
+        <input asp-for="DateTo" class="form-control" />
+    </div>
+    <div class="col-md-2">
+        <button type="submit" class="btn btn-primary w-100">Generate</button>
+    </div>
+</form>
+
+@if (Model.OrderCount > 0)
+{
+    <div class="row mb-4">
+        <div class="col-md-6">
+            <div class="card bg-light">
+                <div class="card-body">
+                    <h5>Summary</h5>
+                    <p>Total Orders: @Model.OrderCount</p>
+                    <p>Grand Total: RM @Model.GrandTotal.ToString("N2")</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <h2 class="h5">By Category</h2>
+    <table class="table table-striped mb-4">
+        <thead><tr><th>Category</th><th>Orders</th><th>Sales</th></tr></thead>
+        <tbody>
+            @foreach (var r in Model.ByCategory)
+            {
+                <tr><td>@r.Label</td><td>@r.OrderCount</td><td>RM @r.TotalSales.ToString("N2")</td></tr>
+            }
+        </tbody>
+    </table>
+
+    <h2 class="h5">By Day</h2>
+    <table class="table table-striped">
+        <thead><tr><th>Date</th><th>Orders</th><th>Sales</th></tr></thead>
+        <tbody>
+            @foreach (var r in Model.ByDay)
+            {
+                <tr><td>@r.Label</td><td>@r.OrderCount</td><td>RM @r.TotalSales.ToString("N2")</td></tr>
+            }
+        </tbody>
+    </table>
+}

@@ -1,45 +1,66 @@
+@model DashboardViewModel
 @{
     ViewData["Title"] = "Admin Dashboard";
 }
 
 <partial name="_AdminNav" />
 
-<h1 class="h3 mb-4">Admin Dashboard</h1>
-<p class="text-muted">Person 3 will add sales KPIs and reports here.</p>
+<h1 class="h3 mb-4">Executive summary</h1>
 
-<div class="row g-3">
-    <div class="col-md-3">
-        <div class="card shadow-sm">
+<div class="row g-3 mb-4">
+    <div class="col-md-4">
+        <div class="card shadow-sm border-primary">
             <div class="card-body">
-                <h5 class="card-title">Products</h5>
-                <p class="display-6 mb-0">@ViewBag.ProductCount</p>
-                <a asp-area="Admin" asp-controller="Products" asp-action="Index" class="small">Manage</a>
+                <h5 class="card-title">Total sales</h5>
+                <p class="display-6 mb-0">RM @Model.TotalSales.ToString("N2")</p>
             </div>
         </div>
     </div>
-    <div class="col-md-3">
+    <div class="col-md-4">
         <div class="card shadow-sm">
             <div class="card-body">
-                <h5 class="card-title">Categories</h5>
-                <p class="display-6 mb-0">@ViewBag.CategoryCount</p>
-                <a asp-area="Admin" asp-controller="Categories" asp-action="Index" class="small">Manage</a>
+                <h5 class="card-title">Sales this month</h5>
+                <p class="display-6 mb-0">RM @Model.MonthlySales.ToString("N2")</p>
             </div>
         </div>
     </div>
-    <div class="col-md-3">
-        <div class="card shadow-sm">
-            <div class="card-body">
-                <h5 class="card-title">Users</h5>
-                <p class="display-6 mb-0">@ViewBag.UserCount</p>
-            </div>
-        </div>
-    </div>
-    <div class="col-md-3">
+    <div class="col-md-4">
         <div class="card shadow-sm">
             <div class="card-body">
                 <h5 class="card-title">Orders</h5>
-                <p class="display-6 mb-0">@ViewBag.OrderCount</p>
+                <p class="display-6 mb-0">@Model.OrderCount</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card shadow-sm">
+            <div class="card-body">
+                <h5 class="card-title">Products</h5>
+                <p class="display-6 mb-0">@Model.ProductCount</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card shadow-sm">
+            <div class="card-body">
+                <h5 class="card-title">Low stock (<5)</h5>
+                <p class="display-6 mb-0">@Model.LowStockCount</p>
             </div>
         </div>
     </div>
 </div>
+
+<h2 class="h5">Top 5 products sold</h2>
+<table class="table table-striped">
+    <thead><tr><th>Product</th><th>Qty sold</th><th>Revenue</th></tr></thead>
+    <tbody>
+        @foreach (var p in Model.TopProducts)
+        {
+            <tr>
+                <td>@p.ProductName</td>
+                <td>@p.QuantitySold</td>
+                <td>RM @p.Revenue.ToString("N2")</td>
+            </tr>
+        }
+    </tbody>
+</table>

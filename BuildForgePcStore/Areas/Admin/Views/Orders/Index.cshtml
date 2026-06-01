@@ -1,0 +1,41 @@
+﻿@model IEnumerable<AdminOrderRowViewModel>
+@{
+    ViewData["Title"] = "All orders";
+}
+
+<partial name="_AdminNav" />
+
+<h1 class="h3 mb-3">All orders</h1>
+
+<form method="get" class="row g-2 mb-3">
+    <div class="col-auto">
+        <input type="date" name="from" value="@ViewBag.From" class="form-control" />
+    </div>
+    <div class="col-auto">
+        <input type="date" name="to" value="@ViewBag.To" class="form-control" />
+    </div>
+    <div class="col-auto">
+        <button type="submit" class="btn btn-primary">Filter</button>
+    </div>
+</form>
+
+<table class="table table-striped">
+    <thead>
+        <tr><th>Order #</th><th>Date</th><th>Customer</th><th>Items</th><th>Total</th><th></th></tr>
+    </thead>
+    <tbody>
+        @foreach (var o in Model)
+        {
+            <tr>
+                <td>@o.OrderId</td>
+                <td>@o.OrderDate.ToString("g")</td>
+                <td>@o.CustomerName</td>
+                <td>@o.ItemCount</td>
+                <td>RM @o.TotalAmount.ToString("N2")</td>
+                <td>
+                    <a asp-area="" asp-controller="Checkout" asp-action="Receipt" asp-route-id="@o.OrderId">Receipt</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
