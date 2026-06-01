@@ -1,0 +1,41 @@
+@{
+    ViewData["Title"] = "Admin Dashboard";
+}
+
+<h1 class="h3 mb-4">Admin Dashboard</h1>
+<p class="text-muted">Authorization is working. Product CRUD and reports will be added by your team.</p>
+
+<div class="row g-3">
+    <div class="col-md-3">
+        <div class="card shadow-sm">
+            <div class="card-body">
+                <h5 class="card-title">Products</h5>
+                <p class="display-6 mb-0">@ViewBag.ProductCount</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card shadow-sm">
+            <div class="card-body">
+                <h5 class="card-title">Categories</h5>
+                <p class="display-6 mb-0">@ViewBag.CategoryCount</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card shadow-sm">
+            <div class="card-body">
+                <h5 class="card-title">Users</h5>
+                <p class="display-6 mb-0">@ViewBag.UserCount</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card shadow-sm">
+            <div class="card-body">
+                <h5 class="card-title">Orders</h5>
+                <p class="display-6 mb-0">@ViewBag.OrderCount</p>
+            </div>
+        </div>
+    </div>
+</div>

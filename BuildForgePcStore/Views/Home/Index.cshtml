@@ -1,0 +1,61 @@
+﻿@using BuildForgePcStore.Helpers
+@{
+    ViewData["Title"] = "Home";
+    var isLoggedIn = Context.Session.IsLoggedIn();
+    var isAdmin = Context.Session.IsAdmin();
+}
+
+<div class="p-5 mb-4 bg-primary bg-gradient text-white rounded-3">
+    <h1 class="display-5 fw-bold">BuildForge PC Store</h1>
+    <p class="col-md-10 fs-5">
+        Malaysian PC components e-commerce — CPUs, GPUs, motherboards, RAM, SSDs, PSUs, and cases.
+    </p>
+</div>
+
+<div class="row g-4">
+    <div class="col-md-6">
+        <div class="card h-100 shadow-sm">
+            <div class="card-body">
+                <h5 class="card-title">Phase 1 complete</h5>
+                <p class="card-text">
+                    Database seeded with 39 products across 7 categories. Authentication and admin area are ready for your team.
+                </p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="card h-100 shadow-sm">
+            <div class="card-body">
+                <h5 class="card-title">Get started</h5>
+                @if (isLoggedIn && !isAdmin)
+                {
+                    <p class="card-text mb-3">You are signed in. Open your account page to see what is available.</p>
+                    <a asp-controller="Account" asp-action="Index" class="btn btn-primary">My Account</a>
+                }
+                else if (isAdmin)
+                {
+                    <p class="card-text mb-3">You are signed in as admin.</p>
+                    <a asp-area="Admin" asp-controller="Dashboard" asp-action="Index" class="btn btn-primary">Admin Dashboard</a>
+                }
+                else
+                {
+                    <p class="card-text mb-3">Register a customer account or use the demo logins below.</p>
+                    <a asp-controller="Account" asp-action="Register" class="btn btn-primary me-2">Register</a>
+                    <a asp-controller="Account" asp-action="Login" class="btn btn-outline-primary">Login</a>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+@inject IWebHostEnvironment HostEnv
+@if (HostEnv.IsDevelopment())
+{
+    <div class="alert alert-secondary mt-4">
+        <strong>Development test accounts</strong> (remove from production UI later):
+        <ul class="mb-0 mt-2">
+            <li><strong>Admin:</strong> admin@buildforge.my / Admin@123 → then open <a asp-area="Admin" asp-controller="Dashboard" asp-action="Index">Admin Dashboard</a></li>
+            <li><strong>Customer:</strong> demo@buildforge.my / Customer@123</li>
+        </ul>
+    </div>
+}

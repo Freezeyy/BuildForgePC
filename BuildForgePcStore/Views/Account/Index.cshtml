@@ -1,0 +1,29 @@
+@{
+    ViewData["Title"] = "My Account";
+    var name = ViewBag.UserName as string ?? "Customer";
+}
+
+<div class="row justify-content-center">
+    <div class="col-lg-8">
+        <div class="card shadow-sm">
+            <div class="card-body p-4">
+                <h1 class="h3 mb-2">Welcome, @name</h1>
+                <p class="text-muted mb-4">You are logged in as a <strong>customer</strong>.</p>
+
+                <div class="alert alert-info mb-4">
+                    Shopping, cart, and order history will appear here as your team completes those features.
+                </div>
+
+                <h2 class="h5">Coming soon</h2>
+                <ul class="mb-4">
+                    <li>Browse products by category</li>
+                    <li>Shopping cart &amp; checkout</li>
+                    <li>Order history &amp; receipts</li>
+                    <li>PC compatibility checker</li>
+                </ul>
+
+                <a asp-controller="Home" asp-action="Index" class="btn btn-outline-secondary">Back to home</a>
+            </div>
+        </div>
+    </div>
+</div>

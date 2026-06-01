@@ -1,0 +1,32 @@
+## Build
+bin/
+obj/
+[Bb]uild/
+[Ll]og/
+[Ll]ogs/
+
+## Visual Studio
+.vs/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+## Database (local SQLite)
+*.db
+*.db-shm
+*.db-wal
+
+## OS
+.DS_Store
+Thumbs.db
+
+## NuGet
+*.nupkg
+project.lock.json
+
+## Secrets
+appsettings.Development.json
+
+## Local team docs (keep on your machine only)
+ProjectGuides/
