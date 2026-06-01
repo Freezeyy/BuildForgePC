@@ -1,0 +1,37 @@
+﻿@model IEnumerable<BuildForgePcStore.Models.Entities.Product>
+@{
+    ViewData["Title"] = "Shop";
+    var categories = ViewBag.Categories as IEnumerable<BuildForgePcStore.Models.Entities.Category>;
+    var selectedId = ViewBag.SelectedCategoryId as int?;
+}
+<h1 class="h3 mb-3">Shop</h1>
+<div class="mb-3">
+    <a class="btn btn-sm @(selectedId == null ? "btn-primary" : "btn-outline-primary")"
+       asp-action="Index">All</a>
+    @if (categories != null)
+    {
+        foreach (var cat in categories)
+        {
+            <a class="btn btn-sm @(selectedId == cat.CategoryId ? "btn-primary" : "btn-outline-primary")"
+               asp-action="Index" asp-route-categoryId="@cat.CategoryId">@cat.CategoryName</a>
+        }
+    }
+</div>
+<div class="row row-cols-1 row-cols-md-3 g-4">
+    @foreach (var item in Model)
+    {
+        <div class="col">
+            <div class="card h-100 shadow-sm">
+                <img src="@item.ImagePath" class="card-img-top p-3" alt="@item.ProductName"
+                     style="height:160px;object-fit:contain" />
+                <div class="card-body">
+                    <h5 class="card-title">@item.ProductName</h5>
+                    <p class="text-muted small mb-1">@item.Category.CategoryName</p>
+                    <p class="fw-bold mb-2">RM @item.Price.ToString("N2")</p>
+                    <a class="btn btn-primary btn-sm" asp-action="Details"
+                       asp-route-id="@item.ProductId">View</a>
+                </div>
+            </div>
+        </div>
+    }
+</div>

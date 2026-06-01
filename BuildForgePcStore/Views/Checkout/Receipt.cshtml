@@ -1,0 +1,42 @@
+﻿@model ReceiptViewModel
+@{
+    ViewData["Title"] = "Receipt";
+}
+<div class="card shadow-sm" id="receipt">
+    <div class="card-body">
+        <h1 class="h4">BuildForge PC Store — Receipt</h1>
+        <p class="mb-0">Order #@Model.OrderId</p>
+        <p class="text-muted">@Model.OrderDate.ToString("f")</p>
+        <p>Customer: <strong>@Model.CustomerName</strong></p>
+        <table class="table table-sm mt-3">
+            <thead>
+                <tr><th>Item</th><th>Qty</th><th>Unit</th><th>Subtotal</th></tr>
+            </thead>
+            <tbody>
+                @foreach (var line in Model.Lines)
+                {
+                    <tr>
+                        <td>@line.ProductName</td>
+                        <td>@line.Quantity</td>
+                        <td>RM @line.UnitPrice.ToString("N2")</td>
+                        <td>RM @line.Subtotal.ToString("N2")</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+        <dl class="row mb-0">
+            <dt class="col-6">Subtotal</dt>
+            <dd class="col-6 text-end">RM @Model.Subtotal.ToString("N2")</dd>
+            <dt class="col-6">SST (6%)</dt>
+            <dd class="col-6 text-end">RM @Model.TaxAmount.ToString("N2")</dd>
+            <dt class="col-6">Total paid</dt>
+            <dd class="col-6 text-end fw-bold">RM @Model.TotalAmount.ToString("N2")</dd>
+        </dl>
+    </div>
+</div>
+<button type="button" class="btn btn-outline-secondary mt-3" onclick="window.print()">Print</button>
+<a asp-controller="Products" asp-action="Index" class="btn btn-primary mt-3">Continue shopping</a>
+@if (!Context.Session.IsAdmin())
+{
+    <a asp-controller="Orders" asp-action="Index" class="btn btn-link mt-3">My orders</a>
+}

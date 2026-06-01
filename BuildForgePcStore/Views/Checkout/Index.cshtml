@@ -1,0 +1,39 @@
+﻿@model CheckoutViewModel
+@{
+    ViewData["Title"] = "Checkout";
+}
+<h1 class="h3 mb-3">Checkout</h1>
+<form asp-action="Index" method="post">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <table class="table">
+        <thead><tr><th>Product</th><th>Qty</th><th>Total</th></tr></thead>
+        <tbody>
+            @foreach (var line in Model.Cart.Lines)
+            {
+                <tr>
+                    <td>@line.ProductName</td>
+                    <td>@line.Quantity</td>
+                    <td>RM @line.LineTotal.ToString("N2")</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    <dl class="row">
+        <dt class="col-sm-3">Subtotal</dt>
+        <dd class="col-sm-9">RM @Model.Subtotal.ToString("N2")</dd>
+        <dt class="col-sm-3">SST (6%)</dt>
+        <dd class="col-sm-9">RM @Model.TaxAmount.ToString("N2")</dd>
+        <dt class="col-sm-3">Grand total</dt>
+        <dd class="col-sm-9 fw-bold">RM @Model.TotalAmount.ToString("N2")</dd>
+    </dl>
+    <div class="mb-3 form-check">
+        <input asp-for="ConfirmOrder" class="form-check-input" />
+        <label asp-for="ConfirmOrder" class="form-check-label"></label>
+        <span asp-validation-for="ConfirmOrder" class="text-danger"></span>
+    </div>
+    <button type="submit" class="btn btn-success">Place order</button>
+    <a asp-controller="Cart" asp-action="Index" class="btn btn-link">Back to cart</a>
+</form>
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

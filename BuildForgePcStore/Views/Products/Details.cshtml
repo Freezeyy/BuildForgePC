@@ -1,0 +1,40 @@
+﻿@model BuildForgePcStore.Models.Entities.Product
+@{
+    ViewData["Title"] = Model.ProductName;
+}
+<div class="row">
+    <div class="col-md-5">
+        <img src="@Model.ImagePath" alt="@Model.ProductName" class="img-fluid rounded border p-3" />
+    </div>
+    <div class="col-md-7">
+        <h1 class="h3">@Model.ProductName</h1>
+        <p class="text-muted">@Model.Category.CategoryName</p>
+        <p class="display-6 text-primary">RM @Model.Price.ToString("N2")</p>
+        <p>Stock: @Model.Stock</p>
+        @if (!string.IsNullOrEmpty(Model.Socket))
+        {
+            <p>Socket: <strong>@Model.Socket</strong></p>
+        }
+        <p>@Model.Description</p>
+        @if (Model.Stock > 0)
+        {
+            <form asp-controller="Cart" asp-action="Add" method="post" class="row g-2 align-items-end">
+                @Html.AntiForgeryToken()
+                <input type="hidden" name="productId" value="@Model.ProductId" />
+                <div class="col-auto">
+                    <label class="form-label">Quantity</label>
+                    <input type="number" name="quantity" value="1" min="1" max="@Model.Stock"
+                           class="form-control" style="width:100px" />
+                </div>
+                <div class="col-auto">
+                    <button type="submit" class="btn btn-primary">Add to cart</button>
+                </div>
+            </form>
+        }
+        else
+        {
+            <div class="alert alert-warning">Out of stock</div>
+        }
+        <a asp-action="Index" class="btn btn-link mt-2">Back to shop</a>
+    </div>
+</div>
