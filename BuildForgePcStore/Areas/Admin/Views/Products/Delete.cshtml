@@ -1,0 +1,21 @@
+@model ProductEditViewModel
+@{
+    ViewData["Title"] = "Delete product";
+}
+
+<partial name="_AdminNav" />
+
+<h1 class="h3 mb-3 text-danger">Delete product</h1>
+
+<p>Delete <strong>@Model.ProductName</strong> (@Model.CategoryName)?</p>
+
+@if (!string.IsNullOrEmpty(Model.CurrentImagePath))
+{
+    <p><img src="@Model.CurrentImagePath" alt="" class="img-thumbnail" style="max-height:100px" /></p>
+}
+
+<form asp-action="Delete" method="post">
+    <input type="hidden" asp-for="ProductId" />
+    <button type="submit" class="btn btn-danger">Delete</button>
+    <a asp-action="Index" class="btn btn-link">Cancel</a>
+</form>

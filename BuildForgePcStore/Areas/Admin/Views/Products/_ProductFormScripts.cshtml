@@ -1,0 +1,18 @@
+<script>
+    (function () {
+        var names = @Html.Raw(System.Text.Json.JsonSerializer.Serialize(
+            ViewBag.CategoryNames ?? new Dictionary<int, string>()));
+        var select = document.getElementById('categorySelect');
+        var socketGroup = document.getElementById('socketGroup');
+        function toggleSocket() {
+            var id = select.value;
+            var name = names[id] || '';
+            var show = name === 'CPU' || name === 'Motherboard';
+            socketGroup.style.display = show ? 'block' : 'none';
+        }
+        if (select) {
+            select.addEventListener('change', toggleSocket);
+            toggleSocket();
+        }
+    })();
+</script>

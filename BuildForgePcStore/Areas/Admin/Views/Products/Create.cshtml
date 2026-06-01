@@ -1,0 +1,19 @@
+@model ProductEditViewModel
+@{
+    ViewData["Title"] = "Add product";
+}
+
+<partial name="_AdminNav" />
+
+<h1 class="h3 mb-3">Add product</h1>
+
+<form asp-action="Create" method="post" enctype="multipart/form-data">
+    <partial name="_ProductForm" model="Model" />
+    <button type="submit" class="btn btn-primary">Save</button>
+    <a asp-action="Index" class="btn btn-link">Cancel</a>
+</form>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+    <partial name="_ProductFormScripts" />
+}

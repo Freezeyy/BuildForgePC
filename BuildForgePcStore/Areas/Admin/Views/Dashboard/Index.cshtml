@@ -2,15 +2,17 @@
     ViewData["Title"] = "Admin Dashboard";
 }
 
-<h1 class="h3 mb-4">Admin Dashboard</h1>
-<p class="text-muted">Authorization is working. Product CRUD and reports will be added by your team.</p>
+<partial name="_AdminNav" />
 
-<div class="row g-3">
+<h1 class="h3 mb-4">Admin Dashboard</h1>
+
+<div class="row g-3 mb-4">
     <div class="col-md-3">
         <div class="card shadow-sm">
             <div class="card-body">
                 <h5 class="card-title">Products</h5>
                 <p class="display-6 mb-0">@ViewBag.ProductCount</p>
+                <a asp-area="Admin" asp-controller="Products" asp-action="Index" class="small">Manage</a>
             </div>
         </div>
     </div>
@@ -19,6 +21,7 @@
             <div class="card-body">
                 <h5 class="card-title">Categories</h5>
                 <p class="display-6 mb-0">@ViewBag.CategoryCount</p>
+                <a asp-area="Admin" asp-controller="Categories" asp-action="Index" class="small">Manage</a>
             </div>
         </div>
     </div>

@@ -1,0 +1,26 @@
+@model CategoryEditViewModel
+@{
+    ViewData["Title"] = "Delete category";
+    var productCount = (int)(ViewBag.ProductCount ?? 0);
+}
+
+<partial name="_AdminNav" />
+
+<h1 class="h3 mb-3 text-danger">Delete category</h1>
+
+<p>Delete <strong>@Model.CategoryName</strong>?</p>
+<p class="text-muted">@productCount product(s) in this category.</p>
+
+@if (productCount > 0)
+{
+    <div class="alert alert-warning">Remove or reassign products before deleting this category.</div>
+    <a asp-action="Index" class="btn btn-secondary">Back</a>
+}
+else
+{
+    <form asp-action="Delete" method="post">
+        <input type="hidden" asp-for="CategoryId" />
+        <button type="submit" class="btn btn-danger">Delete</button>
+        <a asp-action="Index" class="btn btn-link">Cancel</a>
+    </form>
+}
