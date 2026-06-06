@@ -23,10 +23,11 @@ public class DashboardController : Controller
 
         var vm = new DashboardViewModel
         {
-            TotalSales = await _context.Orders.SumAsync(o => (decimal?)o.TotalAmount) ?? 0,
-            MonthlySales = await _context.Orders
+            // SQLite cannot Sum decimal in SQL — cast via double
+            TotalSales = (decimal)(await _context.Orders.SumAsync(o => (double?)o.TotalAmount) ?? 0),
+            MonthlySales = (decimal)(await _context.Orders
                 .Where(o => o.OrderDate >= startOfMonth)
-                .SumAsync(o => (decimal?)o.TotalAmount) ?? 0,
+                .SumAsync(o => (double?)o.TotalAmount) ?? 0),
             OrderCount = await _context.Orders.CountAsync(),
             ProductCount = await _context.Products.CountAsync(),
             LowStockCount = await _context.Products.CountAsync(p => p.Stock < 5)
@@ -38,7 +39,7 @@ public class DashboardController : Controller
             {
                 ProductId = g.Key,
                 Qty = g.Sum(x => x.Quantity),
-                Revenue = g.Sum(x => x.Subtotal)
+                Revenue = g.Sum(x => (double)x.Subtotal)
             })
             .OrderByDescending(x => x.Qty)
             .Take(5)
@@ -53,7 +54,7 @@ public class DashboardController : Controller
         {
             ProductName = names.GetValueOrDefault(t.ProductId, "Unknown"),
             QuantitySold = t.Qty,
-            Revenue = t.Revenue
+            Revenue = (decimal)t.Revenue
         }).ToList();
 
         return View(vm);

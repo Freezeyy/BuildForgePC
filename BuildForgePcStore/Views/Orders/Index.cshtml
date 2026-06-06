@@ -1,0 +1,32 @@
+@model OrderHistoryViewModel
+@{
+    ViewData["Title"] = "My orders";
+}
+
+<h1 class="h3 mb-3">My orders</h1>
+
+@if (!Model.Orders.Any())
+{
+    <p>No orders yet.</p>
+    <a asp-controller="Products" asp-action="Index" class="btn btn-primary">Shop now</a>
+}
+else
+{
+    <table class="table table-striped">
+        <thead>
+            <tr><th>Order #</th><th>Date</th><th>Items</th><th>Total</th><th></th></tr>
+        </thead>
+        <tbody>
+        @foreach (var o in Model.Orders)
+        {
+            <tr>
+                <td>@o.OrderId</td>
+                <td>@o.OrderDate.ToString("g")</td>
+                <td>@o.ItemCount</td>
+                <td>RM @o.TotalAmount.ToString("N2")</td>
+                <td><a asp-action="Details" asp-route-id="@o.OrderId">Details</a></td>
+            </tr>
+        }
+        </tbody>
+    </table>
+}

@@ -10,17 +10,41 @@
                 <h1 class="h3 mb-2">Welcome, @name</h1>
                 <p class="text-muted mb-4">You are logged in as a <strong>customer</strong>.</p>
 
-                <div class="alert alert-info mb-4">
-                    Shopping, cart, and order history will appear here as your team completes those features.
+                <h2 class="h5 mb-3">Quick links</h2>
+                <div class="row g-3 mb-4">
+                    <div class="col-sm-6">
+                        <a asp-controller="Products" asp-action="Index" class="card text-decoration-none h-100">
+                            <div class="card-body">
+                                <h3 class="h6 card-title mb-1">Shop</h3>
+                                <p class="card-text small text-muted mb-0">Browse products by category</p>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="col-sm-6">
+                        <a asp-controller="Cart" asp-action="Index" class="card text-decoration-none h-100">
+                            <div class="card-body">
+                                <h3 class="h6 card-title mb-1">Cart</h3>
+                                <p class="card-text small text-muted mb-0">Review items and checkout</p>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="col-sm-6">
+                        <a asp-controller="Orders" asp-action="Index" class="card text-decoration-none h-100">
+                            <div class="card-body">
+                                <h3 class="h6 card-title mb-1">My orders</h3>
+                                <p class="card-text small text-muted mb-0">Order history and receipts</p>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="col-sm-6">
+                        <a asp-controller="Compatibility" asp-action="Index" class="card text-decoration-none h-100">
+                            <div class="card-body">
+                                <h3 class="h6 card-title mb-1">Compatibility</h3>
+                                <p class="card-text small text-muted mb-0">Check CPU and motherboard socket match</p>
+                            </div>
+                        </a>
+                    </div>
                 </div>
-
-                <h2 class="h5">Coming soon</h2>
-                <ul class="mb-4">
-                    <li>Browse products by category</li>
-                    <li>Shopping cart &amp; checkout</li>
-                    <li>Order history &amp; receipts</li>
-                    <li>PC compatibility checker</li>
-                </ul>
 
                 <a asp-controller="Home" asp-action="Index" class="btn btn-outline-secondary">Back to home</a>
             </div>

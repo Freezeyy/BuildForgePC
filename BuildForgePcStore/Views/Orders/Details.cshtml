@@ -1,0 +1,29 @@
+@model OrderDetailsViewModel
+@{
+    ViewData["Title"] = "Order details";
+}
+
+<h1 class="h3 mb-3">Order #@Model.OrderId</h1>
+<p class="text-muted">@Model.OrderDate.ToString("f")</p>
+
+<table class="table">
+    <thead><tr><th>Product</th><th>Qty</th><th>Unit</th><th>Subtotal</th></tr></thead>
+    <tbody>
+    @foreach (var line in Model.Lines)
+    {
+        <tr>
+            <td>@line.ProductName</td>
+            <td>@line.Quantity</td>
+            <td>RM @line.UnitPrice.ToString("N2")</td>
+            <td>RM @line.Subtotal.ToString("N2")</td>
+        </tr>
+    }
+    </tbody>
+</table>
+
+<p>Subtotal: RM @Model.Subtotal.ToString("N2")<br />
+SST: RM @Model.TaxAmount.ToString("N2")<br />
+<strong>Total: RM @Model.TotalAmount.ToString("N2")</strong></p>
+
+<a asp-action="Index" class="btn btn-link">Back to orders</a>
+<a asp-controller="Checkout" asp-action="Receipt" asp-route-id="@Model.OrderId" class="btn btn-outline-primary">View receipt</a>
