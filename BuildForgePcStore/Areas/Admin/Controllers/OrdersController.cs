@@ -27,7 +27,8 @@ public class OrdersController : Controller
             query = query.Where(o => o.OrderDate < to.Value.Date.AddDays(1));
 
         var orders = await query
-            .OrderByDescending(o => o.OrderDate)
+            .OrderBy(o => o.OrderDate)
+            .ThenBy(o => o.OrderId)
             .Select(o => new AdminOrderRowViewModel
             {
                 OrderId = o.OrderId,

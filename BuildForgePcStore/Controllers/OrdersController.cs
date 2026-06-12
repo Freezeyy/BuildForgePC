@@ -22,8 +22,8 @@ public class OrdersController : Controller
         var userId = HttpContext.Session.GetUserId()!.Value;
         var orders = await _context.Orders
             .Where(o => o.UserId == userId)
-            .OrderByDescending(o => o.OrderDate)
-            .ThenByDescending(o => o.OrderId)
+            .OrderBy(o => o.OrderDate)
+            .ThenBy(o => o.OrderId)
             .Select(o => new OrderSummaryViewModel
             {
                 OrderId = o.OrderId,
