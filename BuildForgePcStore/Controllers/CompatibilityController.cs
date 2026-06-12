@@ -33,21 +33,40 @@ public class CompatibilityController : Controller
             return View(model);
         }
 
-        var cpu = await _context.Products.FindAsync(model.CpuProductId);
-        var mb = await _context.Products.FindAsync(model.MotherboardProductId);
+        var cpu = await _context.Products
+            .Include(p => p.Category)
+            .FirstOrDefaultAsync(p =>
+                p.ProductId == model.CpuProductId.Value &&
+                p.Category.CategoryName == "CPU");
 
-        if (cpu == null || mb == null || string.IsNullOrEmpty(cpu.Socket) || string.IsNullOrEmpty(mb.Socket))
+        var mb = await _context.Products
+            .Include(p => p.Category)
+            .FirstOrDefaultAsync(p =>
+                p.ProductId == model.MotherboardProductId.Value &&
+                p.Category.CategoryName == "Motherboard");
+
+        if (cpu == null || mb == null)
         {
-            model.ResultMessage = "Invalid selection.";
-            model.IsCompatible = false;
+            model.ResultMessage = "Invalid selection — pick one CPU and one motherboard from the lists.";
+            model.IsCompatible = null;
             return View(model);
         }
 
-        var compatible = string.Equals(cpu.Socket, mb.Socket, StringComparison.OrdinalIgnoreCase);
+        var cpuSocket = cpu.Socket?.Trim();
+        var mbSocket = mb.Socket?.Trim();
+
+        if (string.IsNullOrEmpty(cpuSocket) || string.IsNullOrEmpty(mbSocket))
+        {
+            model.ResultMessage = "Socket information is missing for the selected products.";
+            model.IsCompatible = null;
+            return View(model);
+        }
+
+        var compatible = string.Equals(cpuSocket, mbSocket, StringComparison.OrdinalIgnoreCase);
         model.IsCompatible = compatible;
         model.ResultMessage = compatible
-            ? $"Compatible — both use {cpu.Socket}."
-            : $"Not compatible — CPU uses {cpu.Socket}, motherboard uses {mb.Socket}.";
+            ? $"Compatible — both use {cpuSocket}."
+            : $"Not compatible — CPU uses {cpuSocket}, motherboard uses {mbSocket}.";
 
         return View(model);
     }

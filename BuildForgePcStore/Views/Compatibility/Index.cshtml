@@ -40,11 +40,13 @@
     <button type="submit" class="btn btn-primary mt-3">Check compatibility</button>
 </form>
 
-@if (Model.IsCompatible.HasValue)
+@if (!string.IsNullOrEmpty(Model.ResultMessage))
 {
-    <div class="card mt-4 @(Model.IsCompatible == true ? "border-success bg-success bg-opacity-10" : "border-danger bg-danger bg-opacity-10")">
+    var isSuccess = Model.IsCompatible == true;
+    var isWarning = Model.IsCompatible == null;
+    <div class="card mt-4 @(isSuccess ? "border-success bg-success bg-opacity-10" : isWarning ? "border-warning bg-warning bg-opacity-10" : "border-danger bg-danger bg-opacity-10")">
         <div class="card-body">
-            <h5 class="card-title">@(Model.IsCompatible == true ? "Compatible" : "Not compatible")</h5>
+            <h5 class="card-title">@(isSuccess ? "Compatible" : isWarning ? "Check again" : "Not compatible")</h5>
             <p class="mb-0">@Model.ResultMessage</p>
         </div>
     </div>

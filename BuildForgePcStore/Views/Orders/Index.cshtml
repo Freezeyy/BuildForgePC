@@ -14,13 +14,16 @@ else
 {
     <table class="table table-striped">
         <thead>
-            <tr><th>Order #</th><th>Date</th><th>Items</th><th>Total</th><th></th></tr>
+            <tr><th>Your order</th><th>Date</th><th>Items</th><th>Total</th><th></th></tr>
         </thead>
         <tbody>
         @foreach (var o in Model.Orders)
         {
             <tr>
-                <td>@o.OrderId</td>
+                <td>
+                    #@o.CustomerOrderNumber
+                    <span class="text-muted small">(store #@o.OrderId)</span>
+                </td>
                 <td>@o.OrderDate.ToString("g")</td>
                 <td>@o.ItemCount</td>
                 <td>RM @o.TotalAmount.ToString("N2")</td>

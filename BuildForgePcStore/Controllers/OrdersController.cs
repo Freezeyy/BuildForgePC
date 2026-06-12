@@ -23,6 +23,7 @@ public class OrdersController : Controller
         var orders = await _context.Orders
             .Where(o => o.UserId == userId)
             .OrderByDescending(o => o.OrderDate)
+            .ThenByDescending(o => o.OrderId)
             .Select(o => new OrderSummaryViewModel
             {
                 OrderId = o.OrderId,
@@ -31,6 +32,8 @@ public class OrdersController : Controller
                 ItemCount = o.OrderDetails.Sum(d => d.Quantity)
             })
             .ToListAsync();
+
+        AssignCustomerOrderNumbers(orders);
 
         return View(new OrderHistoryViewModel { Orders = orders });
     }
@@ -50,6 +53,7 @@ public class OrdersController : Controller
         var vm = new OrderDetailsViewModel
         {
             OrderId = order.OrderId,
+            CustomerOrderNumber = await GetCustomerOrderNumberAsync(userId, order.OrderId),
             OrderDate = order.OrderDate,
             Subtotal = order.Subtotal,
             TaxAmount = order.TaxAmount,
@@ -64,5 +68,25 @@ public class OrdersController : Controller
         };
 
         return View(vm);
+    }
+
+    private static void AssignCustomerOrderNumbers(List<OrderSummaryViewModel> orders)
+    {
+        var chronological = orders.OrderBy(o => o.OrderDate).ThenBy(o => o.OrderId).ToList();
+        for (var i = 0; i < chronological.Count; i++)
+            chronological[i].CustomerOrderNumber = i + 1;
+    }
+
+    private async Task<int> GetCustomerOrderNumberAsync(int userId, int orderId)
+    {
+        var orderIds = await _context.Orders
+            .Where(o => o.UserId == userId)
+            .OrderBy(o => o.OrderDate)
+            .ThenBy(o => o.OrderId)
+            .Select(o => o.OrderId)
+            .ToListAsync();
+
+        var index = orderIds.IndexOf(orderId);
+        return index >= 0 ? index + 1 : 0;
     }
 }
